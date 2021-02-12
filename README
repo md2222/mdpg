@@ -1,4 +1,4 @@
-MDPG
+# MDPG
 
 Password generator based on crypto_scrypt by Colin Percival.
 The idea of the program is to generate complex passwords when they are needed, not to remember or store them. It is enough to remember one main password.
