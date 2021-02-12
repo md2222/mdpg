@@ -5,6 +5,8 @@ The idea of the program is to generate complex passwords when they are needed, n
 
 Note: I'm not a security expert. I cannot assess the reliability of this method. This program is an analogue of other programs based on crypto_scrypt.
 
+![mdpg](https://raw.githubusercontent.com/md2222/mdpg/main/mdpg-screenshot-1.png)
+
 Install
 
 Change the current working directory to ".../src". Do "make" to compile the program. Do "make install" to install the program. 
