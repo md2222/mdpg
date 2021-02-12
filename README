@@ -5,7 +5,7 @@ The idea of the program is to generate complex passwords when they are needed, n
 
 Note: I'm not a security expert. I cannot assess the reliability of this method. This program is an analogue of other programs based on crypto_scrypt.
 
-![mdpg](https://raw.githubusercontent.com/md2222/mdpg/main/mdpg-screenshot-1.png)
+![mdpg](https://github.com/md2222/mdpg/blob/main/mdpg-screenshot-1.png)
 
 Install
 
