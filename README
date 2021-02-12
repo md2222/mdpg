@@ -2,6 +2,8 @@ MDPG
 
 Password generator based on crypto_scrypt by Colin Percival.
 
+Note: I'm not a security expert. I cannot assess the reliability of this method. This program is an analogue of other programs based on crypto_scrypt.
+
 Install
 
 Change the current working directory to ".../src". Do "make" to compile the program. Do "make install" to install the program. 
