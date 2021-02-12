@@ -3,7 +3,7 @@
 Password generator based on crypto_scrypt by Colin Percival.
 The idea of the program is to generate complex passwords when they are needed, not to remember or store them. It is enough to remember one main password.
 
-Note: I'm not a security expert. I cannot assess the reliability of this method. This program is an analogue of other programs based on crypto_scrypt.
+Note: I'm not a security expert. I cannot assess the reliability of this method. This program is an analogue of other programs based on crypto_scrypt. ... Possibly more usable.
 
 ![mdpg](https://github.com/md2222/mdpg/blob/main/mdpg-screenshot-1.png)
 
