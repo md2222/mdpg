@@ -194,8 +194,6 @@ gboolean makePassw(gpointer data)
 
     memset(key, 0, KEY_SIZE);
         
-    //GtkEntry* edPassw = (GtkEntry*)gtk_builder_get_object(builder, "edPassw");
-    
     if (passw)
     {
         //g_print("passw=%s\n", passw);
@@ -219,8 +217,8 @@ gboolean makePassw(gpointer data)
         
         zeroAndFree(passw, passwLen);
     }
-    else
-        gtk_entry_set_text(params.edPassw, "");
+    //else
+        //wipeEntry(params.edPassw);  
 
     setCursor(window, NULL);
 
@@ -230,19 +228,14 @@ gboolean makePassw(gpointer data)
 
 static void onMake(GtkWidget *widget, gpointer data)
 {
-    //g_print("onMake\n");
-    
-    //params.edPassw = (GtkEntry*)gtk_builder_get_object(builder, "edPassw");
-    gtk_entry_set_text(params.edPassw, wipeStr);
+    wipeEntry(params.edPassw); 
     gtk_main_iteration_do(FALSE);
     
     GtkEntry* edObj = (GtkEntry*)gtk_builder_get_object(builder, "edObj");
     params.obj = gtk_entry_get_text(edObj);
     
-    //GtkEntry* edMaster = (GtkEntry*)gtk_builder_get_object(builder, "edMaster");
     params.master = gtk_entry_get_text(params.edMaster);
     
-    //GtkEntry* edMaster2 = (GtkEntry*)gtk_builder_get_object(builder, "edMaster2");
     const gchar *master2 = gtk_entry_get_text(params.edMaster2);
     
     GtkComboBox* cbFormat = (GtkComboBox*)gtk_builder_get_object(builder, "cbFormat");
@@ -253,7 +246,6 @@ static void onMake(GtkWidget *widget, gpointer data)
     
     //g_print("fields:    %s    %s    %s    %s    %d\n", params.obj, params.master, master2, len, params.format);
     
-    //int len;
     GError *err = NULL;
     
     if (!g_ascii_string_to_signed(len, 10, 0, 99, &params.len, &err))
@@ -316,23 +308,11 @@ static void onCopy(GtkWidget *widget, gpointer data)
 static void onClose(GtkWidget *object, gpointer data)
 {
     //g_print("onClose\n");
-    //if (params.edPassw)
-    const gchar *sz = gtk_entry_get_text(params.edMaster);
-    if (sz && strlen(sz))
-    {
-        gtk_entry_set_text(params.edMaster, g_strnfill(strlen(sz), '#'));
-    }
-    
-    sz = gtk_entry_get_text(params.edMaster2);
-    if (sz && strlen(sz))
-    {
-        gtk_entry_set_text(params.edMaster2, g_strnfill(strlen(sz), '#'));
-    }
-    
-    gtk_entry_set_text(params.edPassw, wipeStr);
-    
+    wipeEntry(params.edMaster);
+    wipeEntry(params.edMaster2);    
+    wipeEntry(params.edPassw);
+   
     gtk_main_iteration_do(FALSE);
-    //sleep(1);
 
     gtk_main_quit();
 }
@@ -340,10 +320,6 @@ static void onClose(GtkWidget *object, gpointer data)
 /*
 static gboolean onClose(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-    printf("onCloseWin\n");
-    gtk_entry_set_text(params.edPassw, wipeStr);
-    //gtk_main_iteration_do(FALSE);
-
     return FALSE;
 }
 */
@@ -369,7 +345,7 @@ gboolean onMakePress(GtkWidget *widget, GdkEvent  *event,  gpointer data)
 int main(int argc, char **argv)
 {
     gtk_init(&argc, &argv);
-    g_print("MDPG 2.1.1    7.02.2021\n");
+    g_print("MDPG 2.1.2    12.02.2021\n");   // and title
     g_print("Keep it simple ...\n");
     
     gchar *baseName = g_path_get_basename(argv[0]);
@@ -394,7 +370,7 @@ int main(int argc, char **argv)
     }
     
     window = GTK_WIDGET(gtk_builder_get_object(builder, "mainWin"));
-    gtk_window_set_title(GTK_WINDOW (window), "MDPG 2.1.1");
+    gtk_window_set_title(GTK_WINDOW (window), "MDPG 2.1.2");
 
     //g_signal_connect(window, "delete-event", G_CALLBACK(onClose), NULL);
     //g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL); 
