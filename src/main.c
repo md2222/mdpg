@@ -1,10 +1,5 @@
-// g++ `pkg-config --cflags gtk+-3.0` -o pg1 main.c `pkg-config --libs gtk+-3.0`
 #include <gtk/gtk.h>
 #include "crypto_scrypt.h"
-/*#include <openssl/md5.h>
-#include <openssl/evp.h>
-#include <openssl/bio.h>
-#include <openssl/buffer.h>*/
 #include "base91.h"
 
 
@@ -82,31 +77,8 @@ void message(const gchar* text)
 {
     gtk_entry_set_text(params.edPassw, text);
 }
-
-/*
-char *base64(const unsigned char *input, int length)
-{
-  BIO *bmem, *b64;
-  BUF_MEM *bptr;
-
-  b64 = BIO_new(BIO_f_base64());
-  bmem = BIO_new(BIO_s_mem());
-  b64 = BIO_push(b64, bmem);
-  BIO_write(b64, input, length);
-  BIO_flush(b64);
-  BIO_get_mem_ptr(b64, &bptr);
-
-  char *buff = (char *)malloc(bptr->length);
-  memcpy(buff, bptr->data, bptr->length-1);
-  buff[bptr->length-1] = 0;
-
-  BIO_free_all(b64);
-
-  return buff;
-}
-*/
-
 //----------------------------------------------------------------------------------------------------------------------
+
 gint messageBox(GtkWidget *parent, const char* text, const char* caption, uint type, Rect* rect)
 {
    GtkWidget *dialog ;
@@ -147,9 +119,6 @@ void setCursor(GtkWidget *w, char *curName)
 
 gboolean makePassw(gpointer data)
 {
-    //char* salt = base64((unsigned char*)params.obj, strlen(params.obj));
-    //gchar *salt = g_base64_encode(params.obj, strlen(params.obj));
-    //gchar *salt = base91(params.obj, strlen(params.obj));
     gchar *salt = g_utf8_strdown(params.obj, -1);
     int saltLen = strlen(salt);
     //g_print("salt=%s\n", salt); 
@@ -158,8 +127,6 @@ gboolean makePassw(gpointer data)
     
     // 32768, 65536, 131072
 	if (crypto_scrypt((uint8_t *)params.master, (size_t)strlen(params.master), (uint8_t *)salt, (size_t)saltLen, 131072, 8, 1, key, KEY_SIZE)) 
-	//if (crypto_scrypt((uint8_t *)params.master, (size_t)strlen(params.master), (uint8_t *)params.obj, (size_t)strlen(params.obj), 131072, 8, 1, key, KEY_SIZE)) 
-	//if (crypto_scrypt((uint8_t *)params.master, (size_t)strlen(params.master), (uint8_t *)salt, (size_t)saltLen, 32768 , 8 , 2, key, KEY_SIZE)) 
     {
     	//fprintf(stderr, "crypto_scrypt() error\n");
         //messageBox(window, "crypto_scrypt() error.", appName, 0, 0);
@@ -177,10 +144,8 @@ gboolean makePassw(gpointer data)
     }
     else if (params.format == FID_BASE64)
     {
-        //char* passw = base64(key, KEY_SIZE);
         passw = g_base64_encode(key, KEY_SIZE);
         //g_print("passw=%s\n", passw);
-        //g_strdelimit(passw, "/+=", '?');
         gchar* p1 = passw;
         gchar* p2 = p1;
         while (*p1)
@@ -199,9 +164,7 @@ gboolean makePassw(gpointer data)
         //g_print("passw=%s\n", passw);
 
         int passwLen = strlen(passw);
-        /*char *p2 = passw + strlen(passw);
-        for (char* p1 = passw + params.len; p1 < p2; p1++)
-            *p1 = '\0'; */
+
         if (params.len > 0 && params.len < passwLen)
             memset(passw + params.len, 0, passwLen - params.len);
             
@@ -217,8 +180,6 @@ gboolean makePassw(gpointer data)
         
         zeroAndFree(passw, passwLen);
     }
-    //else
-        //wipeEntry(params.edPassw);  
 
     setCursor(window, NULL);
 
@@ -284,13 +245,6 @@ static void onMake(GtkWidget *widget, gpointer data)
         return; 
     }
     
-    //GdkCursor* watchCursor = gdk_cursor_new(GDK_WATCH);
-    //gdk_window_set_cursor(window, watchCursor);
-    
-    /*GdkDisplay *disp = gtk_widget_get_display(window);
-    GdkWindow *gdkWin = gtk_widget_get_window (window);
-    gdk_window_set_cursor(gdkWin, gdk_cursor_new_from_name(disp, "wait")); */
-    
     setCursor(window, "wait");
     
     g_idle_add(makePassw, NULL);
@@ -345,7 +299,7 @@ gboolean onMakePress(GtkWidget *widget, GdkEvent  *event,  gpointer data)
 int main(int argc, char **argv)
 {
     gtk_init(&argc, &argv);
-    g_print("MDPG 2.1.2    12.02.2021\n");   // and title
+    g_print("MDPG 2.1.3    13.02.2021\n");   // and title
     g_print("Keep it simple ...\n");
     
     gchar *baseName = g_path_get_basename(argv[0]);
@@ -370,10 +324,10 @@ int main(int argc, char **argv)
     }
     
     window = GTK_WIDGET(gtk_builder_get_object(builder, "mainWin"));
-    gtk_window_set_title(GTK_WINDOW (window), "MDPG 2.1.2");
+    gtk_window_set_title(GTK_WINDOW (window), "MDPG 2.1.3");
 
-    //g_signal_connect(window, "delete-event", G_CALLBACK(onClose), NULL);
     //g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL); 
+    //g_signal_connect(window, "delete-event", G_CALLBACK(onClose), NULL);
     g_signal_connect(window, "destroy", G_CALLBACK(onClose), NULL); 
     
     GObject *btMake = gtk_builder_get_object(builder, "btMake");

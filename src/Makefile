@@ -25,11 +25,15 @@ install: mdpg
 	mkdir -p -- "$(DESTDIR)$(PREFIX)/share/mdpg"
 	cp -i -- mdpg "$(DESTDIR)$(PREFIX)/bin/"
 	cp -i -- mainWin.glade "$(DESTDIR)$(PREFIX)/share/mdpg/"
+	cp -i -- mdpg.desktop "/usr/share/applications"
+	cp -i -- icons/mdpg.png "/usr/share/pixmaps"
 	
 	
 uninstall:
 	-rm -- "$(DESTDIR)$(PREFIX)/bin/mdpg"
 	-rm -r -- "$(DESTDIR)$(PREFIX)/share/mdpg"
+	-rm -- "/usr/share/applications/mdpg.desktop"
+	-rm -- "/usr/share/pixmaps/mdpg.png"
 	
 	
 clean:

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=MD Password Generator
+Type=Application
+Terminal=false
+Exec=mdpg
+Icon=mdpg
+Categories=Utility;
