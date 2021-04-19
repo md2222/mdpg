@@ -299,7 +299,7 @@ gboolean onMakePress(GtkWidget *widget, GdkEvent  *event,  gpointer data)
 int main(int argc, char **argv)
 {
     gtk_init(&argc, &argv);
-    g_print("MDPG 2.1.3    13.02.2021\n");   // and title
+    g_print("MDPG 2.2.1    20.04.2021\n");   // and title
     g_print("Keep it simple ...\n");
     
     gchar *baseName = g_path_get_basename(argv[0]);
@@ -312,11 +312,10 @@ int main(int argc, char **argv)
     builder = gtk_builder_new();
     GError *error = NULL;	
 
-    gchar *filePath = g_strconcat(dataDir, "/mainWin.glade", NULL);
-    //gchar *filePath = "/usr/local/share/mdpg/mainWin.glade";
-    //gchar *filePath = "mainWin.glade";
+    //gchar *filePath = g_strconcat(dataDir, "/mainWin.glade", NULL);
 
-    if (gtk_builder_add_from_file(builder, filePath, &error) == 0)
+    //if (gtk_builder_add_from_file(builder, filePath, &error) == 0)
+    if (gtk_builder_add_from_resource(builder, "/app/mainWin.glade", &error) == 0)
     {
         g_printerr("Error loading glade file: %s\n", error->message);
         g_clear_error(&error);
@@ -324,7 +323,10 @@ int main(int argc, char **argv)
     }
     
     window = GTK_WIDGET(gtk_builder_get_object(builder, "mainWin"));
-    gtk_window_set_title(GTK_WINDOW (window), "MDPG 2.1.3");
+    gtk_window_set_title(GTK_WINDOW(window), "MDPG 2.2.1");
+    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_resource ("/app/mdpg.png", NULL);
+    if (pixbuf)
+        gtk_window_set_icon (GTK_WINDOW(window), pixbuf);
 
     //g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL); 
     //g_signal_connect(window, "delete-event", G_CALLBACK(onClose), NULL);
